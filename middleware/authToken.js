@@ -13,16 +13,16 @@ async function authToken(req,res,next){
         }
 
         jwt.verify(token, process.env.TOKEN_SECRET_KEY, function(err, decoded) {
-            
             if(err){
-                console.log("error auth", err)
+                console.log("Token verification error:", err);
+                return res.status(401).json({ message: "Invalid token", error: true, success: false });
             }
-
-            req.userId = decoded?._id
-
-            next()
+        
+            console.log("Decoded token:", decoded);
+            req.userId = decoded?._id;
+        
+            next();
         });
-
 
     }catch(err){
         res.status(400).json({
