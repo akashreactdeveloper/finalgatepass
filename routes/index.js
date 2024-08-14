@@ -15,7 +15,7 @@ const CategoryGatepass = require('../controller/awlForm/CategoryGatepass')
 
 router.post("/signup",userSignUpController)
 router.post("/",userSigninController)
-router.get("/user-details",userDetailsController)
+router.get("/user-details",authToken,userDetailsController)
 router.get("/userLogout",userLogout)
 
 //admin Panel
