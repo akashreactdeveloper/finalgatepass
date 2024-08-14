@@ -1,31 +1,24 @@
 const userModel = require('../../models/userModel');
 
-async function userDetailsController(req, res) {
-    try {
-        if (!req.userId) {
-            return res.status(401).json({ message: "User not authenticated", error: true, success: false });
-        }
-
+async function userDetailsController(req,res){
+    try{ 
         const user = await userModel.findById(req.userId);
 
-        if (!user) {
-            return res.status(404).json({ message: "User not found", error: true, success: false });
-        }
-
         res.status(200).json({
-            data: user,
+            data : user,
             error: false,
-            success: true,
-            message: "User Detail"
-        });
+            success : true,
+            message : "User Detail"
+        })
+        
 
-    } catch (err) {
+    }catch(err){
         res.status(400).json({
-            message: err.message || err,
-            error: true,
-            success: false
-        });
+            message : err.message || err,
+            error : true,
+            success : false
+        })
     }
 }
 
-module.exports = userDetailsController;
+module.exports = userDetailsController
