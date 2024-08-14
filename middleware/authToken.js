@@ -5,16 +5,15 @@ async function authToken(req, res, next) {
         const token = req.cookies?.token;
 
         if (!token) {
-            return res.status(200).json({
+            return res.status(401).json({
                 message: "Please Login...!",
                 error: true,
                 success: false
             });
         }
 
-        jwt.verify(token, process.env.TOKEN_SECRET_KEY, function (err, decoded) {
+        jwt.verify(token, process.env.TOKEN_SECRET_KEY, (err, decoded) => {
             if (err) {
-                console.log("Token verification error:", err);
                 return res.status(401).json({
                     message: "Invalid or expired token, please log in again.",
                     error: true,
@@ -22,9 +21,7 @@ async function authToken(req, res, next) {
                 });
             }
 
-            console.log("Decoded token:", decoded);
-            req.userId = decoded?._id;
-
+            req.userId = decoded._id;
             next();
         });
 

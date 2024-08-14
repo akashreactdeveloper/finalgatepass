@@ -1,59 +1,52 @@
-const userModel = require("../../models/userModel")
-const bcrypt = require('bcryptjs');
+const bcrypt = require("bcryptjs");
+const userModel = require("../../models/userModel");
+const jwt = require('jsonwebtoken');
 
-
-async function userSignUpController(req, res) {
+async function userSigninController(req, res) {
     try {
-        const { email, password, name } = req.body
-
-        const user = await userModel.findOne({email})
-
-        if(user){
-            throw new Error("Already User Exists !")
-        }
-
+        const { email, password } = req.body;
 
         if (!email) {
-            throw new Error("Please provide email")
+            throw new Error("Please provide email");
         }
         if (!password) {
-            throw new Error("Please provide password")
-        }
-        if (!name) {
-            throw new Error("Please provide name")
+            throw new Error("Please provide password");
         }
 
-        const salt = bcrypt.genSaltSync(10);
-        const hashPassword = await bcrypt.hashSync(password, salt);
+        const user = await userModel.findOne({ email });
 
-        if (!hashPassword) {
-            throw new Error("Something is Wrong")
+        if (!user) {
+            throw new Error("User doesn't exist!");
         }
 
-        const payload = {
-            ...req.body,
-            role : "GENERAL",
-            password: hashPassword
+        const checkPassword = await bcrypt.compare(password, user.password);
+
+        if (checkPassword) {
+            const tokenData = { _id: user._id, email: user.email };
+            const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: '8h' });
+
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+                sameSite: 'lax' // Adjust based on your needs
+            }).status(200).json({
+                message: "Login successfully",
+                data: token,
+                success: true,
+                error: false
+            });
+
+        } else {
+            throw new Error("Invalid password!");
         }
-
-        const userData = new userModel(payload)
-        const saveUser = await userData.save()
-
-        res.status(201).json({
-            data: saveUser,
-            success: true,
-            error: false,
-            message: "User created Successfully!"
-        })
-
 
     } catch (err) {
-        res.json({
+        res.status(400).json({
             message: err.message || err,
             error: true,
             success: false,
-        })
+        });
     }
 }
 
-module.exports = userSignUpController
+module.exports = userSigninController;
