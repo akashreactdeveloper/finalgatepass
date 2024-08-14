@@ -7,7 +7,7 @@ const cookieParser = require('cookie-parser')
 const AwlModel = require('./models/AwlModel');
 
 const app = express()
-const allowedOrigins = ['https://66bc56186652184c2bb2efba--teal-yeot-b589c2.netlify.app','https://teal-yeot-b589c2.netlify.app'];
+const allowedOrigins = ['https://66bc56186652184c2bb2efba--teal-yeot-b589c2.netlify.app','https://teal-yeot-b589c2.netlify.app','http://localhost:3001'];
 app.use(cors({
     origin: function (origin, callback) {
         // Allow requests with no origin (like mobile apps or curl requests)
@@ -20,6 +20,17 @@ app.use(cors({
     },
     credentials: true
 }));
+
+// Backend example (Express)
+app.post('/api/signin', async (req, res) => {
+    // Authenticate user and generate token
+    const token = generateToken(user); // Replace with your token generation logic
+  
+    // Set token in cookies
+    res.cookie('token', token, { httpOnly: true, secure: true }); // Ensure `secure` is true in production
+    res.json({ success: true, message: 'Logged in successfully' });
+  });
+  
 
 app.use(express.json())
 app.use(cookieParser())
