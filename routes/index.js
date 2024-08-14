@@ -20,10 +20,10 @@ router.get("/userLogout",userLogout)
 
 //admin Panel
 router.get("/all-users",allUsers)
-router.post("/update-user",authToken,updateUser)
+router.post("/update-user",updateUser)
 
 //generateAwlGatepass
-router.post("/Awl-formdata",authToken,AwlformDataController)
+router.post("/Awl-formdata",AwlformDataController)
 router.get("/get-AwlGatepass",getAwlGatepassController)
 router.get("/gatepass-type",CategoryGatepass)
 
