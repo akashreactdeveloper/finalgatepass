@@ -10,6 +10,8 @@ async function userDetailsController(req,res){
             success : true,
             message : "User Detail"
         })
+
+        console.log("user",user)
         
 
     }catch(err){
