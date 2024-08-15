@@ -24,10 +24,11 @@ async function userSignInController(req, res) {
     console.log("checkPassoword", checkPassword)
 
     if (checkPassword) {
-      const tokenData = {
-        _id: user._id,
-        email: user.email,
-      }
+        const tokenData = {
+            _id: user._id,
+            email: req.body.email, // Use req.body.email instead of user.email
+          }
+          console.log("User object:", user);
       const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: 60 * 60 * 8 });
 
       const tokenOption = {
