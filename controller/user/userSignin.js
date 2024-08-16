@@ -22,6 +22,7 @@ async function userSignInController(req,res){
        const checkPassword = await bcrypt.compare(password,user.password)
 
        console.log("checkPassoword",checkPassword)
+       console.log("token secret key",process.env.TOKEN_SECRET_KEY)
 
        if(checkPassword){
         const tokenData = {
