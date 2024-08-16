@@ -84,6 +84,8 @@ const AwlSchema = new mongoose.Schema({
     TotalTruckWeight3: Number,
     typeofsale : String,
     loadingDoneBy : String,
+    kandaWeight : Number,
+    verified : String,
 }, {
     timestamps: true
 });
