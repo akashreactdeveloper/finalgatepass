@@ -10,15 +10,13 @@ const app = express()
 const allowedOrigins = ['https://66bc56186652184c2bb2efba--teal-yeot-b589c2.netlify.app','https://teal-yeot-b589c2.netlify.app','http://localhost:3001','http://localhost:3000'];
 app.use(cors({
     origin: function (origin, callback) {
-        // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
-            return callback(new Error(msg), false);
+        if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+            return callback(null, true);
         }
-        return callback(null, true);
+        const msg = 'The CORS policy does not allow access from the specified Origin.';
+        return callback(new Error(msg), false);
     },
-    credentials: true
+    credentials: true // Allow credentials (cookies) to be sent
 }));
 
 // Backend example (Express)
@@ -38,6 +36,11 @@ app.use(cookieParser())
 app.use("/api", router)
 
 const PORT = process.env.PORT || 8080;
+
+app.use((req, res, next) => {
+    console.log('Cookies: ', req.cookies);
+    next();
+});
 
 
 connectDB().then(() => {
