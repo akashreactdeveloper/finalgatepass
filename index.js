@@ -27,7 +27,7 @@ app.post('/api/signin', async (req, res) => {
     const token = generateToken(user); // Replace with your token generation logic
   
     // Set token in cookies
-    res.cookie('token', token, { httpOnly: true, secure: true }); // Ensure `secure` is true in production
+    res.cookie('token', token, { httpOnly: true, secure: false }); // Ensure `secure` is true in production
     res.json({ success: true, message: 'Logged in successfully' });
   });
   
