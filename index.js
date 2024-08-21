@@ -8,7 +8,7 @@ const AwlModel = require('./models/AwlModel');
 const generateToken = require('./utils/TokenUtils')
 
 const app = express()
-const allowedOrigins = ['https://66bc56186652184c2bb2efba--teal-yeot-b589c2.netlify.app','https://teal-yeot-b589c2.netlify.app','http://localhost:3001','http://localhost:3000','https://guileless-phoenix-0062c9.netlify.app'];
+const allowedOrigins = ['https://66bc56186652184c2bb2efba--teal-yeot-b589c2.netlify.app','https://teal-yeot-b589c2.netlify.app','http://localhost:3001','http://localhost:3000','https://heroic-malasada-7f5dba.netlify.app'];
 app.use(cors({
     origin: function (origin, callback) {
         if (!origin || allowedOrigins.indexOf(origin) !== -1) {
