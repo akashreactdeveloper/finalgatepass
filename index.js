@@ -63,7 +63,7 @@ app.use("/api", router)
 const PORT = process.env.PORT || 8080;
 
 app.use((req, res, next) => {
-    console.log('Cookies: ', req.cookies);
+    console.log('Cookies: ',  JSON.stringify(req.cookies));
     next();
 });
 
