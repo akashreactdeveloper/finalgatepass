@@ -36,7 +36,7 @@ router.post('/signin', async (req, res) => {
         const token = generateToken(user); // Use the generateToken function
 
         res.cookie('token', token, {
-            httpOnly: true,
+            httpOnly: false,
             secure: process.env.NODE_ENV === 'production' // Ensure cookies are secure in production
         }).status(200).json({
             message: "Login successful",

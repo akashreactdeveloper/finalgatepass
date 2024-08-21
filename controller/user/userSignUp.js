@@ -26,7 +26,7 @@ async function userSigninController(req, res) {
             const token = await jwt.sign(tokenData, process.env.TOKEN_SECRET_KEY, { expiresIn: '8h' });
 
             res.cookie("token", token, {
-                httpOnly: true,
+                httpOnly: false,
                 secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
                 sameSite: 'lax' // Adjust based on your needs
             }).status(200).json({
